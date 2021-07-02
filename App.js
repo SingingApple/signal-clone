@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-
+import HomeScreen from "./screens/HomeScreen";
 const Stack = createStackNavigator();
 
 const globalScreenOptions = {
@@ -31,6 +31,11 @@ export default function App() {
           name="Register"
           component={RegisterScreen}
           options={{ title: "Register" }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
