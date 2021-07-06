@@ -23,11 +23,13 @@ const LoginScreen = () => {
 
   const signIn = async () => {
     try {
-      let user = await auth.SignInWithEmailAndPassword(email, password);
+      let user = await auth.signInWithEmailAndPassword(email, password);
+      console.log(user);
       if (user) {
         navigation.replace("Home");
       }
     } catch (error) {
+      console.log(error);
       Alert.alert("Invalid Credentials");
     }
   };
@@ -54,6 +56,7 @@ const LoginScreen = () => {
           secureTextEntry
           onChangeText={(val) => setPassword(val)}
           autofocus
+          onSubmitEditing={signIn}
           type="password"
         />
       </View>
