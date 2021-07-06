@@ -3,12 +3,36 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { auth } from "../firebase";
+import { Alert } from "react-native";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const signIn = () => {};
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace("Home");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const signIn = async () => {
+    try {
+      let user = await auth.signInWithEmailAndPassword(email, password);
+      console.log(user);
+      if (user) {
+        navigation.replace("Home");
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Invalid Credentials");
+    }
+  };
   return (
     <KeyboardAvoidingView behavior="margin" style={styles.container}>
       <StatusBar style="dark" />
@@ -32,6 +56,7 @@ const LoginScreen = () => {
           secureTextEntry
           onChangeText={(val) => setPassword(val)}
           autofocus
+          onSubmitEditing={signIn}
           type="password"
         />
       </View>
